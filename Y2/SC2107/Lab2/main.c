@@ -67,7 +67,7 @@ static void MX_USART3_UART_Init(void);
  */
 int main(void) {
 	/* USER CODE BEGIN 1 */
-  HAL_NVIC_SystemReset();
+  HAL_NVIC_SystemReset(); //To reset the board - else the accelerometer and gyroscope values are not received properly.
 	/* USER CODE END 1 */
 
 	/* MCU Configuration--------------------------------------------------------*/
