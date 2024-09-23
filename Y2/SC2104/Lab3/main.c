@@ -1,7 +1,4 @@
 
-Akshay Narayanan B <narayanakshay11@gmail.com>
-Fri, Sep 13, 3:55 PM (1 day ago)
-to me
 
 /* USER CODE BEGIN Header */
 /**
