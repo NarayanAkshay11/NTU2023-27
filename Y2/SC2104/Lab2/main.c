@@ -150,29 +150,8 @@ int main(void)
   roll_gyro += imu.gyro[0] * dt ; //Integrate the angular velocity of y  * dt
   yaw_gyro += imu.gyro[2] * dt ; //Yaw only if you wanna overdo n be a K155-455
 
-  /* Competency Filter Implementation */
-  pitch_fusion_comp = 0.05*pitch_acc + 0.95*(pitch_fusion_comp + (imu.gyro[1])*dt);
-  roll_fusion_comp = 0.05*roll_acc + 0.95*(roll_fusion_comp + (imu.gyro[1])*dt);
-
-  /* Kalman Filter Implementation */
-  roll_KF = roll_KF + imu.gyro[0]*dt;
-  pitch_KF = pitch_KF + imu.gyro[1]*dt;
-
-  roll_var_g = roll_var_g + dt*dt*Var_gyro;
-  pitch_var_g = pitch_var_g + dt*dt*Var_gyro;
-
-  KG_roll = roll_var_g/(roll_var_g + Var_acc);
-  KG_pitch = pitch_var_g/(pitch_var_g + Var_acc);
-
-  roll_KF = roll_KF + KG_roll*(roll_acc - roll_KF);
-  pitch_KF = pitch_KF + KG_pitch*(pitch_acc - pitch_KF);
-
-  roll_var_g = (1- KG_roll)*roll_var_g;
-  pitch_var_g = (1- KG_pitch)*pitch_var_g;
-
-
-  /* Final Printing of Values for SerialPort */
-  sprintf(sbuf ,"%5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %5.2f, %5.2f ", pitch_acc, roll_acc, pitch_fusion_comp, roll_fusion_comp, roll_KF, pitch_KF, pitch_gyro, roll_gyro );
+   /* Final Printing of Values for SerialPort */
+  sprintf(sbuf ,"%5.2f, %5.2f, %5.2f, %5.2f ", pitch_acc, roll_acc, pitch_gyro, roll_gyro );
   HAL_UART_Transmit(&huart3, sbuf, 60, HAL_MAX_DELAY);
   HAL_UART_Transmit(&huart3, "\n\r", 2, HAL_MAX_DELAY); //New Line
   HAL_Delay(100);
