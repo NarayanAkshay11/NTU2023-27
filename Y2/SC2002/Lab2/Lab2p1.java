@@ -1,158 +1,157 @@
-import java.util.Scanner;
-
+package Lab2;
+import java.util.*;
 public class Lab2p1 {
-    public static void main(String[] args) {
-        int choice;
-        Scanner sc = new Scanner(System.in);
+	static Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) {
+		int choice;
+		int m, n;
+		long num;
+		
+		do {
+			System.out.println("Perform the following methods:");
+			System.out.println("1: multiplication test");
+			System.out.println("2: quotient using division by subtraction");
+			System.out.println("3: remainder using division by subtraction");
+			System.out.println("4: count the number of digits");
+			System.out.println("5: position of a digit");
+			System.out.println("6: extract all odd digits");
+			System.out.println("7: quit");
+			choice = sc.nextInt();
+		
+			switch (choice) {
+			case 1:
+					mulTest();
+				break;
+			case 2:
+					System.out.println("Input m:");
+					m = sc.nextInt();
+					System.out.println("Input n:");
+					n = sc.nextInt();
+					System.out.printf("%d/%d = %d\n", m, n, divide(m, n));
+				break;
+			case 3:
+					System.out.println("Input m:");
+					m = sc.nextInt();
+					System.out.println("Input n:");
+					n = sc.nextInt();
+					System.out.printf("%d%%%d = %d\n", m, n, modulus(m, n));
+				break;
+			case 4:
+					System.out.println("Enter the value:");
+					n = sc.nextInt();
+					m = countDigits(n);
+					if(m == 0)
+						System.out.printf("n: %d - Error input!!\n", n);
+					else
+						System.out.printf("n: %d - count = %d\n", n, m);
+				break;
+			case 5: System.out.println("Input value:");
+					n = sc.nextInt();
+					System.out.printf("Input digit to look for in %d:\n", n);
+					m = sc.nextInt();
+					System.out.printf("position = %d\n", position(n, m));
+				break;
+			case 6: System.out.println("Input value:");
+					num = sc.nextLong();
+					if(num > 0)
+						System.out.printf("oddDigits = %d\n", extractOddDigits(num));
+					else
+						System.out.println("oddDigits = Error input!!");
+					
+				break; 
+			case 7: System.out.println("Program terminating �.");
+			}
+		} while (choice < 7);
+	}
+	
+	//question 3.2
+	public static void mulTest()
+	{
+		int num1, num2;
+		int numOfCorrect=0;
+		
+		for(int i=0; i<5; i++)
+		{
+			num1 = (int)(Math.random()*10) + 1;
+			num2 = (int)(Math.random()*10) + 1;
+			num1 += (num1 != 0) ? 0 : 1;
+			num2 += (num2 != 0) ? 0 : 1;
+			System.out.printf("How much is %d times %d? ", num1, num2);
+			if((num1 * num2) == sc.nextInt())
+				++numOfCorrect;
+		}
+		System.out.printf("%d answers out of 5 are correct.\n", numOfCorrect);
+	}
+	
+	//question 3.3
+	public static int divide(int m, int n)
+	{
+		int counter=0;
+		while(m > 0)
+		{
+			m -= n;
+			if(m >= 0)
+				++counter;
+		}
+		
+		return counter;
+	}
+	
+	//question 3.4
+	public static int modulus(int m, int n)
+	{
+		int remainder=0;
+		while(m > 0)
+		{
+			remainder = m;
+			m -= n;
+		}
+		
+		return (m != 0) ? remainder : 0;
+	}
+	
+	//question 3.5
+	public static int countDigits(int n)
+	{
+		int count=0;
+		while(n > 0)
+		{
+			n /= 10;
+			++count;
+		}
+		return count;
+	}
+	
+	//question 3.6
+	public static int position(int n, int digit)
+	{
+		int pos = 1;
+		while(n > 0)
+		{
+			if(n%10 == digit)
+				return pos;
+			n /= 10;
+			++pos;
+		}
+		return -1;
+	}
+	
+	//question 3.7
+	public static long extractOddDigits(long n)
+	{
+		long oddDigits=0;
+		long counter=1;
+		while(n > 0)
+		{
+            if((n%10) % 2 != 0)
+			{
+				oddDigits += (counter * (n%10));
+				counter *= 10;
+			}
+			n /= 10;
+		}
+		
+		return (oddDigits != 0) ? oddDigits : -1;
+	}
 
-        // Menu-driven program
-        do {
-            System.out.println("Perform the following methods:");
-            System.out.println("1: multiplication test");
-            System.out.println("2: quotient using division by subtraction");
-            System.out.println("3: remainder using division by subtraction");
-            System.out.println("4: count the number of digits");
-            System.out.println("5: position of a digit");
-            System.out.println("6: extract all odd digits");
-            System.out.println("7: quit");
-            choice = sc.nextInt();
-
-            // Switch case to call appropriate methods
-            switch (choice) {
-                case 1:
-                    mulTest();
-                    break;
-                case 2:
-                    System.out.println("Enter two integers:");
-                    int m = sc.nextInt();
-                    int n = sc.nextInt();
-                    System.out.println("Quotient: " + divide(m, n));
-                    break;
-                case 3:
-                    System.out.println("Enter two integers:");
-                    m = sc.nextInt();
-                    n = sc.nextInt();
-                    System.out.println("Remainder: " + modulus(m, n));
-                    break;
-                case 4:
-                    System.out.println("Enter an integer:");
-                    int num = sc.nextInt();
-                    System.out.println("Count of digits: " + countDigits(num));
-                    break;
-                case 5:
-                    System.out.println("Enter an integer and the digit to find:");
-                    num = sc.nextInt();
-                    int digit = sc.nextInt();
-                    System.out.println("Position: " + position(num, digit));
-                    break;
-                case 6:
-                    System.out.println("Enter an integer:");
-                    long lnum = sc.nextLong();
-                    System.out.println("Odd digits: " + extractOddDigits(lnum));
-                    break;
-                case 7:
-                    System.out.println("Program terminating ....");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Try again.");
-            }
-        } while (choice < 7);
-        
-        sc.close();
-    }
-
-    // Method 3.2: Multiplication test with random numbers
-    public static void mulTest() {
-        Scanner sc = new Scanner(System.in);
-        int correctCount = 0;
-
-        for (int i = 0; i < 5; i++) {
-            int num1 = (int) (Math.random() * 9) + 1;
-            int num2 = (int) (Math.random() * 9) + 1;
-
-            System.out.println("How much is " + num1 + " times " + num2 + "?");
-            int answer = sc.nextInt();
-
-            if (answer == num1 * num2) {
-                correctCount++;
-            }
-        }
-
-        System.out.println(correctCount + " answers out of 5 are correct.");
-    }
-
-    // Method 3.3: Division by subtraction
-    public static int divide(int m, int n) {
-        int count = 0;
-        while (m >= n) {
-            m -= n;
-            count++;
-        }
-        return count;
-    }
-
-    // Method 3.4: Modulus using division by subtraction
-    public static int modulus(int m, int n) {
-        while (m >= n) {
-            m -= n;
-        }
-        return m;
-    }
-
-    // Method 3.5: Count the number of digits in an integer
-    public static int countDigits(int n) {
-        if (n < 0) {
-            System.out.println("Error input!!");
-            return -1;
-        }
-
-        int count = 0;
-        while (n > 0) {
-            n /= 10;
-            count++;
-        }
-
-        return count;
-    }
-
-    // Method 3.6: Position of a digit in a number (from the right, 1-based)
-    public static int position(int n, int digit) {
-        int pos = 1;
-
-        while (n > 0) {
-            if (n % 10 == digit) {
-                return pos;
-            }
-            n /= 10;
-            pos++;
-        }
-
-        return -1;
-    }
-
-    // Method 3.7: Extract odd digits and return as a new number
-    public static long extractOddDigits(long n) {
-        if (n < 0) {
-            System.out.println("Error input!!");
-            return -1;
-        }
-
-        long result = 0;
-        long factor = 1;
-
-        while (n > 0) {
-            long digit = n % 10;
-            if (digit % 2 != 0) {
-                result += digit * factor;
-                factor *= 10;
-            }
-            n /= 10;
-        }
-
-        if (result == 0) {
-            return -1;
-        } else {
-            return result;
-        }
-    }
 }
